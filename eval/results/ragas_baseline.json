@@ -1,0 +1,12 @@
+{
+  "experiment": "baseline",
+  "ragas_metrics": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.41496040256489336,
+    "context_precision": 0.45888888886398144,
+    "context_recall": 0.56
+  },
+  "per_claim_support_rate": 0.9,
+  "n_cases": 25,
+  "n_claims_checked": 40
+}

@@ -1,0 +1,4 @@
+experiment,portfolio_return_90d,excess_vs_spy,sharpe_ratio,max_drawdown,view_direction_accuracy
+A_equal_weight,0.1566,0.0929,3.3265,-0.0365,
+B_price_only,0.1558,0.0921,3.3255,-0.035,
+C_rag_agent,0.1815,0.1178,3.239,-0.0359,0.3335

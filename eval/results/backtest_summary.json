@@ -1,0 +1,27 @@
+{
+  "portfolio_return_90d": {
+    "A_equal_weight": 0.1566,
+    "B_price_only": 0.1558,
+    "C_rag_agent": 0.1815
+  },
+  "excess_vs_spy": {
+    "A_equal_weight": 0.0929,
+    "B_price_only": 0.0921,
+    "C_rag_agent": 0.1178
+  },
+  "sharpe_ratio": {
+    "A_equal_weight": 3.3265,
+    "B_price_only": 3.3255,
+    "C_rag_agent": 3.239
+  },
+  "max_drawdown": {
+    "A_equal_weight": -0.0365,
+    "B_price_only": -0.035,
+    "C_rag_agent": -0.0359
+  },
+  "view_direction_accuracy": {
+    "A_equal_weight": NaN,
+    "B_price_only": NaN,
+    "C_rag_agent": 0.3335
+  }
+}

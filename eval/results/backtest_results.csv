@@ -1,0 +1,7 @@
+case_id,input_date,experiment,portfolio_return_90d,spy_return_90d,equal_weight_return_90d,excess_vs_spy,sharpe_ratio,max_drawdown,view_direction_accuracy
+bt_001,2025-06-01,A_equal_weight,0.203,0.0979,0.203,0.1051,4.578,-0.0326,
+bt_001,2025-06-01,B_price_only,0.2023,0.0979,0.203,0.1044,4.582,-0.0323,
+bt_001,2025-06-01,C_rag_agent,0.2344,0.0979,0.203,0.1364,4.455,-0.0334,0.667
+bt_002,2024-09-30,A_equal_weight,0.1101,0.0294,0.1101,0.0807,2.075,-0.0404,
+bt_002,2024-09-30,B_price_only,0.1092,0.0294,0.1101,0.0798,2.069,-0.0377,
+bt_002,2024-09-30,C_rag_agent,0.1286,0.0294,0.1101,0.0992,2.023,-0.0384,0.0

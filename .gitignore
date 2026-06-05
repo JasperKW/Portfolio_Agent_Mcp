@@ -1,0 +1,8 @@
+.venv/
+.venv_eval/
+data/index/
+data/filings/
+__pycache__/
+*.pyc
+.env
+*.zip
