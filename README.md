@@ -210,17 +210,17 @@ Tests whether agent's investment views translate to portfolio alpha using histor
 
 ### Layer 3: LLM-Judge — Reasoning Quality (`eval/judge_eval.py`)
 
-Two independent LLM judges (gpt-4o-mini as primary, gpt-4o as secondary) score each analysis on a 1–5 scale with anchored rubrics (BARS), then Cohen's kappa measures inter-judge agreement across 25 cases.
+Two independent LLM judges (llama as primary, gpt-4o as qwen3) score each analysis on a 1–5 scale with anchored rubrics (BARS), then Cohen's kappa measures inter-judge agreement across 25 cases.
 
 **Final Results (Round 3 — forced citation format):**
 
-| Dimension | κ (primary vs secondary) | Gate (≥0.6) | Primary mean score |
-|-----------|--------------------------|-------------|-------------------|
-| data_grounding | 0.606 | ✓ | 1.52/5 |
-| logic_coherence | 0.774 | ✓ | 2.04/5 |
-| citation_quality | 0.725 | ✓ | 1.12/5 |
-| overall | 0.625 | ✓ | 1.60/5 |
-| **Max κ** | **0.774** | **PASSED ✓** | |
+| Dimension | κ (Llama vs Qwen3) | Gate (≥0.6) | Primary mean score |
+|---|---|---|---|
+| data_grounding | 0.932 | ✓ | 1.24/5 |
+| logic_coherence | 0.760 | ✓ | 1.56/5 |
+| citation_quality | 0.000 | ✗ | 1.00/5 |
+| overall | 0.639 | ✓ | 1.28/5 |
+| **Max κ** | **0.932** | **PASSED ✓** | |
 
 ---
 

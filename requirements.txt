@@ -25,6 +25,8 @@ PyPortfolioOpt>=1.5.5    # Black-Litterman optimizer
 ragas>=0.1.10
 scikit-learn>=1.4.0      # Cohen's kappa
 langsmith>=0.1.70
+langchain-groq>=0.1.0
+langchain-google-genai>=1.0.0
 
 # Utilities
 python-dotenv>=1.0.0

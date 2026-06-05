@@ -25,6 +25,7 @@ import pandas as pd
 from dotenv import load_dotenv
 from langchain_core.messages import HumanMessage
 from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 from sklearn.metrics import cohen_kappa_score
 
 load_dotenv()
@@ -33,8 +34,8 @@ RESULTS_DIR = Path("eval/results")
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 # Cross-family judges (S12: GPT judges Claude output to avoid self-preference)
-judge_primary = ChatOpenAI(model="gpt-4o-mini", temperature=0)
-judge_secondary = ChatOpenAI(model="gpt-4o", temperature=0)  # stronger model as human proxy
+judge_primary   = ChatGroq(model="llama-3.3-70b-versatile", temperature=0)
+judge_secondary = ChatGroq(model="qwen/qwen3-32b", temperature=0)
 
 
 # ── Judge rubric ──────────────────────────────────────────────────────────────
@@ -95,7 +96,7 @@ async def score_case(
     case_id: str,
     analysis: str,
     context_summary: str,
-    judge: ChatOpenAI,
+    judge,
     judge_name: str,
 ) -> JudgeScore:
     """Run judge on a single case."""
@@ -106,7 +107,15 @@ async def score_case(
     response = await judge.ainvoke([HumanMessage(content=prompt)])
 
     try:
-        raw = response.content.strip().strip("```json").strip("```").strip()
+        raw = response.content.strip()
+    
+    # 去掉Qwen3/DeepSeek reasoning model的<think>...</think>部分
+        if "<think>" in raw:
+            raw = raw.split("</think>")[-1].strip()
+    
+    # 去掉markdown代码块
+        raw = raw.strip("```json").strip("```").strip()
+    
         parsed = json.loads(raw)
         return JudgeScore(
             case_id=case_id,
@@ -125,16 +134,21 @@ async def score_case(
 # ── Load agent outputs from previous eval run ─────────────────────────────────
 def load_agent_outputs(results_dir: Path = RESULTS_DIR) -> list[dict]:
     """
-    Load agent-generated analyses from RAGAS eval output.
-    In a real run, these would be the analyst outputs from portfolio_graph.py.
+    Load agent-generated analyses.
+    Priority: agent_outputs.csv (real agent memos with citations)
+              → RAGAS CSV (fallback)
+              → synthetic (last resort)
     """
+    agent_csv = results_dir / "agent_outputs.csv"
+    if agent_csv.exists():
+        df = pd.read_csv(agent_csv)
+        return df.to_dict("records")
+
     ragas_csv = results_dir / "ragas_improved_rows.csv"
     if not ragas_csv.exists():
-        # Fall back to baseline
         ragas_csv = results_dir / "ragas_baseline_rows.csv"
 
     if not ragas_csv.exists():
-        # Use synthetic examples for testing judge calibration
         print("Warning: No RAGAS results found. Using synthetic test cases.")
         return _synthetic_test_cases()
 
@@ -203,7 +217,7 @@ async def run_judge_eval(n_cases: int = 30) -> dict:
             case.get("answer", ""),
             str(case.get("contexts", [])[:1]),
             judge_primary,
-            "gpt-4o-mini",
+            "llama-3.3-70b",
         )
         for i, case in enumerate(cases)
     ]
@@ -213,15 +227,26 @@ async def run_judge_eval(n_cases: int = 30) -> dict:
             case.get("answer", ""),
             str(case.get("contexts", [])[:1]),
             judge_secondary,
-            "gpt-4o",
+            "qwen3-32b",
         )
         for i, case in enumerate(cases)
     ]
 
-    print("  Scoring with primary judge (gpt-4o-mini)...")
-    primary_scores = await asyncio.gather(*primary_tasks)
-    print("  Scoring with secondary judge (gpt-4o, human proxy)...")
-    secondary_scores = await asyncio.gather(*secondary_tasks)
+    print("  Scoring with primary judge (llama-3.3-70b via Groq)...")
+    primary_scores = []
+    for i, task in enumerate(primary_tasks):
+        score = await task
+        primary_scores.append(score)
+        print(f"    [{i+1}/{len(primary_tasks)}] done")
+        await asyncio.sleep(4)   
+
+    print("  Scoring with secondary judge (qwen3-32b via Groq)...")
+    secondary_scores = []
+    for i, task in enumerate(secondary_tasks):
+        score = await task
+        secondary_scores.append(score)
+        print(f"    [{i+1}/{len(secondary_tasks)}] done")
+        await asyncio.sleep(4)
 
     # Build DataFrames
     primary_df = pd.DataFrame([vars(s) for s in primary_scores])

@@ -1,26 +1,26 @@
 case_id,judge,data_grounding,logic_coherence,citation_quality,overall,key_issue
-rag_001,gpt-4o-mini,1,1,1,1,"The analysis lacks any specific data, logical reasoning, or verifiable citations."
-rag_002,gpt-4o-mini,1,3,1,2,The analysis lacks specific numerical data and verifiable sources to support its claims.
-rag_003,gpt-4o-mini,1,1,1,1,"The analysis lacks any specific data, logical reasoning, or verifiable citations, making it entirely insufficient for evaluation."
-rag_004,gpt-4o-mini,1,1,1,1,"The analysis lacks any specific data, logical reasoning, or verifiable citations."
-rag_005,gpt-4o-mini,1,1,1,1,"The analysis lacks any specific data, logical reasoning, or verifiable citations."
-rag_006,gpt-4o-mini,1,1,1,1,"The analysis lacks any specific data, reasoning, or citations, making it entirely unsubstantiated."
-rag_007,gpt-4o-mini,2,3,1,2,The analysis lacks specific numerical data and verifiable citations to support its claims.
-rag_008,gpt-4o-mini,1,1,1,1,"The analysis lacks any specific data, logical reasoning, or verifiable citations."
-rag_009,gpt-4o-mini,1,3,1,1,"The analysis lacks specific numerical data and citations, making it difficult to assess the validity of the claims."
-rag_010,gpt-4o-mini,1,1,1,1,"The analysis lacks any specific data, reasoning, or citations, making it entirely unsubstantiated."
-rag_011,gpt-4o-mini,1,1,1,1,"The analysis lacks any specific data, logical reasoning, or citations, making it entirely unsubstantiated."
-rag_012,gpt-4o-mini,1,1,1,1,"The analysis lacks any specific data, logical reasoning, or verifiable citations."
-rag_013,gpt-4o-mini,3,4,2,3,The analysis lacks specific citations and detailed numerical backing for its claims.
-rag_014,gpt-4o-mini,2,3,2,2,The analysis lacks specific numerical data and verifiable citations to support its claims.
-rag_015,gpt-4o-mini,1,1,1,1,"The analysis lacks any specific data, logical reasoning, or verifiable citations."
-rag_016,gpt-4o-mini,4,4,1,3,The analysis lacks specific source citations to verify the revenue claim.
-rag_017,gpt-4o-mini,1,1,1,1,"The analysis lacks any specific data, reasoning, or citations, making it entirely unsubstantiated."
-rag_018,gpt-4o-mini,2,3,1,2,The analysis lacks specific numerical data and verifiable citations to support its claims.
-rag_019,gpt-4o-mini,1,1,1,1,"The analysis lacks any specific data, logical reasoning, or verifiable citations."
-rag_020,gpt-4o-mini,2,3,1,2,The analysis lacks specific numerical data and verifiable sources to support its claims.
-rag_021,gpt-4o-mini,2,3,1,2,The analysis lacks specific numerical data and verifiable citations to support its claims.
-rag_022,gpt-4o-mini,2,3,1,2,The analysis lacks specific numerical data and verifiable sources to support its claims.
-rag_023,gpt-4o-mini,2,3,2,2,"The analysis lacks specific numerical data and verifiable citations, making it difficult to assess the validity of the claims."
-rag_024,gpt-4o-mini,2,3,1,2,"The analysis lacks specific numerical data and verifiable citations, making it difficult to assess its accuracy and reliability."
-rag_025,gpt-4o-mini,1,1,1,1,"The analysis lacks any specific data, reasoning, or citations, making it entirely unsubstantiated."
+rag_001,llama-3.3-70b,1,1,1,1,"The analysis lacks any context, data, or citations, making it impossible to evaluate its validity."
+rag_002,llama-3.3-70b,1,3,1,2,The analysis lacks specific numbers and verifiable source references to support its claims.
+rag_003,llama-3.3-70b,1,1,1,1,"The analysis lacks any context, data, or citations, making it impossible to evaluate its validity or usefulness."
+rag_004,llama-3.3-70b,1,1,1,1,"The analysis lacks any context, data, or citations, making it impossible to evaluate its validity or usefulness."
+rag_005,llama-3.3-70b,1,1,1,1,"The analysis lacks any context, data, or citations, making it impossible to evaluate its validity or usefulness."
+rag_006,llama-3.3-70b,1,1,1,1,"The analysis lacks any context, data, or citations, making it impossible to evaluate its validity or usefulness."
+rag_007,llama-3.3-70b,2,3,1,2,The analysis lacks specific numbers and verifiable source references to support its claims.
+rag_008,llama-3.3-70b,1,1,1,1,"The analysis lacks any context, data, or citations, making it impossible to evaluate its validity."
+rag_009,llama-3.3-70b,1,2,1,1,"The analysis lacks specific numbers, logical coherence, and verifiable source references, making it difficult to evaluate the validity of the claims."
+rag_010,llama-3.3-70b,1,1,1,1,"The analysis lacks any context, data, or citations, making it impossible to evaluate its validity."
+rag_011,llama-3.3-70b,1,1,1,1,"The analysis lacks any context, data, or citations, making it impossible to evaluate its validity or usefulness."
+rag_012,llama-3.3-70b,1,1,1,1,"The analysis lacks any context, data, or citations, making it impossible to evaluate its validity."
+rag_013,llama-3.3-70b,2,2,1,2,The analysis lacks specific numbers and verifiable source references to support its claims about the impact of the Activision Blizzard acquisition on investments in commercial sales and gaming.
+rag_014,llama-3.3-70b,1,3,1,2,The analysis lacks specific numbers and verifiable source references to support its claims.
+rag_015,llama-3.3-70b,1,1,1,1,"The analysis lacks any context, data, or citations, making it impossible to evaluate its validity."
+rag_016,llama-3.3-70b,4,2,1,2,The analysis lacks any source citation or reference to support the claimed revenue figure and growth rate.
+rag_017,llama-3.3-70b,1,1,1,1,"The analysis lacks any context, data, or citations, making it impossible to evaluate its validity."
+rag_018,llama-3.3-70b,1,1,1,1,"The analysis lacks any specific data, logical reasoning, or credible sources to support its claims."
+rag_019,llama-3.3-70b,1,1,1,1,"The analysis lacks any context, data, or citations, making it impossible to evaluate its validity."
+rag_020,llama-3.3-70b,2,2,1,2,The analysis lacks specific numbers and source references to support its claim about iPhone net sales.
+rag_021,llama-3.3-70b,1,2,1,1,"The analysis lacks specific numbers, logical coherence, and verifiable source references, making it difficult to evaluate its validity."
+rag_022,llama-3.3-70b,1,3,1,2,The analysis lacks specific numbers and verifiable source references to support its claims.
+rag_023,llama-3.3-70b,1,1,1,1,"The analysis lacks any specific data, logical reasoning, or credible citations to support its claims about Google's advertising revenues."
+rag_024,llama-3.3-70b,1,2,1,1,"The analysis lacks any specific data, logical reasoning, or credible source citations to support its claims."
+rag_025,llama-3.3-70b,1,1,1,1,"The analysis lacks any context, data, or citations, making it impossible to evaluate its validity or usefulness."

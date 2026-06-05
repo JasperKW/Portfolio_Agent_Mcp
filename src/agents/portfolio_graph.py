@@ -193,8 +193,9 @@ async def analyst_node(sub_state: AnalystSubState) -> dict:
     context_blocks = []
     citations = []
     for r in rag_results:
-        context_blocks.append(f"[{r.doc_type}, p.{r.page}]\n{r.text}")
-        citations.append(f"{r.source_pdf} p.{r.page}")
+        cite_tag = f"(source: {r.doc_type} p.{r.page})"
+        context_blocks.append(f"=== CITATION TAG TO USE: {cite_tag} ===\n{r.text}")
+        citations.append(cite_tag)
     
     rag_context = "\n\n---\n\n".join(context_blocks) if context_blocks else \
         f"No indexed documents found for {ticker}. Using market data only."
@@ -231,14 +232,20 @@ async def analyst_node(sub_state: AnalystSubState) -> dict:
 
 ## Task
 Based ONLY on the above information:
-1. Write a 3-sentence fundamental_summary (cite specific numbers from the documents)
+1. Write a 3-sentence fundamental_summary. EVERY number MUST be followed by
+   its exact citation copied from the context headers above.
 2. Summarise the technical_signal in 1 sentence
 3. Generate a structured view
 
-CRITICAL RULES:
-- If a number is not in the documents or tools above, do NOT make it up
+CRITICAL CITATION RULES:
+- The context blocks above are labeled with headers like [10K, p.45].
+- When you cite a number, copy that EXACT page label: "(source: 10-K p.45)"
+- Format MUST be: number + "(source: 10-K p.XX)"
+  ✅ "revenue was $60.9B (source: 10-K p.45)"
+  ❌ "revenue was $60.9B per the filing"
+  ❌ "revenue was $60.9B (10-K)"   ← missing page number
+- If a number is not in the documents above, do NOT make it up
 - If context is insufficient, say "insufficient data" for that field
-- Cite your sources: "per 10-K p.X" or "per price data"
 
 Respond ONLY with JSON:
 {{
@@ -312,11 +319,11 @@ async def synthesizer_node(state: PortfolioState) -> dict:
         opt_stats = {"error": bl_result.error, "fallback": "equal_weight"}
         print(f"[Synthesizer] B-L failed, using equal weight: {bl_result.error}")
     else:
-        weights = bl_result.output["weights"]
+        weights = {k: float(v) for k, v in bl_result.output["weights"].items()}
         opt_stats = {
-            "expected_return": bl_result.output["expected_annual_return"],
-            "volatility": bl_result.output["annual_volatility"],
-            "sharpe_ratio": bl_result.output["sharpe_ratio"],
+            "expected_return": float(bl_result.output["expected_annual_return"]),
+            "volatility": float(bl_result.output["annual_volatility"]),
+            "sharpe_ratio": float(bl_result.output["sharpe_ratio"]),
             "method": bl_result.output["optimization"],
         }
 

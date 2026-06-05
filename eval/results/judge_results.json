@@ -1,17 +1,17 @@
 {
   "n_cases": 25,
   "kappas": {
-    "data_grounding": 0.606,
-    "logic_coherence": 0.774,
-    "citation_quality": 0.725,
-    "overall": 0.625
+    "data_grounding": 0.932,
+    "logic_coherence": 0.76,
+    "citation_quality": 0.0,
+    "overall": 0.639
   },
   "gate_passed": true,
-  "max_kappa": 0.774,
+  "max_kappa": 0.932,
   "primary_mean_scores": {
-    "data_grounding": 1.52,
-    "logic_coherence": 2.04,
-    "citation_quality": 1.12,
-    "overall": 1.52
+    "data_grounding": 1.24,
+    "logic_coherence": 1.56,
+    "citation_quality": 1.0,
+    "overall": 1.28
   }
 }
