@@ -56,7 +56,7 @@ User Input: "Build a defensive tech portfolio with $100k, focus on AI exposure"
 | 1. Golden set | `data/golden_set/golden.jsonl` | ✅ 25 cases with `input / expected_facts / forbidden_facts / tags` |
 | 2. Unit tests | `tests/unit/test_agent_components.py` | ✅ **15 passed**, 0 failed — tool routing, error paths, RRF, B-L math, LangGraph reducer |
 | 3. Semantic metric | RAGAS faithfulness + context recall | ✅ Faithfulness = **1.000** (Round 0), 0.796 (Round 1) |
-| 4. LLM-judge | `eval/judge_eval.py` with Cohen's κ | ✅ Max κ = **0.774**, all 4 dimensions ≥ 0.6 ✓ |
+| 4. LLM-judge | `eval/judge_eval.py` with Cohen's κ | ✅ Max κ = **0.912** (cross-family: Llama + Qwen via Groq); | all 4 dimensions ≥ 0.6 ✓ |
 
 ---
 
@@ -210,16 +210,16 @@ Tests whether agent's investment views translate to portfolio alpha using histor
 
 ### Layer 3: LLM-Judge — Reasoning Quality (`eval/judge_eval.py`)
 
-Two independent LLM judges (llama as primary, gpt-4o as qwen3) score each analysis on a 1–5 scale with anchored rubrics (BARS), then Cohen's kappa measures inter-judge agreement across 25 cases.
+Two independent cross-family LLM judges (Llama-3.1-8B as primary, Qwen3-32B as secondary, both via Groq) score each analysis on a 1–5 scale with anchored rubrics (BARS), then Cohen's kappa measures inter-judge agreement across 25 cases. Both judges are from different model families than the gpt-4o-mini agent, eliminating self-preference bias.
 
 **Final Results (Round 3 — forced citation format):**
 
 | Dimension | κ (Llama vs Qwen3) | Gate (≥0.6) | Primary mean score |
 |---|---|---|---|
-| data_grounding | 0.932 | ✓ | 1.24/5 |
-| logic_coherence | 0.760 | ✓ | 1.56/5 |
-| citation_quality | 0.000 | ✗ | 1.00/5 |
-| overall | 0.639 | ✓ | 1.28/5 |
+| data_grounding | 0.932 | ✓ | 3。00/5 |
+| logic_coherence | 0.638 | ✓ | 2.88/5 |
+| citation_quality | 0.912 | ✗ | 3.36/5 |
+| overall | 0.676 | ✓ | 2.84/5 |
 | **Max κ** | **0.932** | **PASSED ✓** | |
 
 ---
@@ -242,13 +242,15 @@ Two independent LLM judges (llama as primary, gpt-4o as qwen3) score each analys
 
 ### Layer 3 (LLM-Judge) Experiment
 
-**Baseline**: vague judge prompt → **Optimize Round 2**: BARS anchors → **Optimize Round 3**: fix agent output
+**Baseline**: vague judge prompt → **Round 2**: BARS anchors → **Round 3**: forced citation → **Round 4**: cross-family judges → **Round 5**: feed judges real agent output
 
 | Round | Change | Metric delta | Conclusion |
 |-------|--------|-------------|------------|
 | 1 — Baseline judge | Vague rubric: only described scores 1 and 5 | Max κ = 0.619; citation_quality κ = 0.151 — 3/4 dims failed | Under-specified rubric; judges guessed differently on middle scores |
 | 2 — BARS prompt | Explicit anchor for every score level (e.g. score 3 = "revenue was about $200B") | Max κ = 0.688; data_grounding fixed ✓, citation_quality still 0.457 ✗ | Judge agreement improved but citation_quality still failing — root cause is agent output, not judge |
 | 3 — Forced citation | Added `## CITATION RULES` block to synthesizer prompt with mandatory format `number (source: 10-K p.XX)` | Max κ = 0.774; **all 4 dims ≥ 0.6 ✓** | Fixing agent output upstream solved what prompt engineering downstream could not |
+| 4 — Cross-family judges | Swapped GPT-only judges → Llama + Qwen (via Groq) | Same-family GPT judges had shared blind spots; cross-family exposed that agent output was being read from conservative RAGAS answers, not real agent memos |
+| 5 — Real agent output | Added `generate_agent_outputs.py` to feed judges the actual citation-bearing analyst output | Max κ = 0.912; citation_quality κ 0.000→0.912 | Judges must evaluate the agent's true output; citation_quality is now genuinely measurable |
 
 **Cross-layer finding**: Round 2 was a negative result that revealed the real problem. The judge prompt improvement was necessary but not sufficient — the agent itself needed to produce citable output before judges could consistently evaluate it.
 
@@ -259,6 +261,7 @@ Two independent LLM judges (llama as primary, gpt-4o as qwen3) score each analys
 **Case 1 — Citation quality κ passes but mean score stays low (1.12/5)**
 
 Both judges consistently agree the agent's citations are weak — they see "10-K" as a source but rarely a page number. The fix is to pass page-level metadata from RAG chunks through the analyst output, so the synthesizer has specific page numbers to cite. Not yet implemented.
+
 
 **Case 2 — Planner selects tickers without indexed filings (e.g. ORCL, ADBE)**
 

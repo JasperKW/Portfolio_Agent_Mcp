@@ -34,7 +34,7 @@ RESULTS_DIR = Path("eval/results")
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 # Cross-family judges (S12: GPT judges Claude output to avoid self-preference)
-judge_primary   = ChatGroq(model="llama-3.3-70b-versatile", temperature=0)
+judge_primary   = ChatGroq(model="llama-3.1-8b-instant", temperature=0)
 judge_secondary = ChatGroq(model="qwen/qwen3-32b", temperature=0)
 
 
