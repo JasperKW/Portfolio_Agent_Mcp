@@ -210,7 +210,11 @@ Tests whether agent's investment views translate to portfolio alpha using histor
 
 ### Layer 3: LLM-Judge — Reasoning Quality (`eval/judge_eval.py`)
 
+<<<<<<< HEAD
 Two independent cross-family LLM judges (Llama-3.1-8B as primary, Qwen3-32B as secondary, both via Groq) score each analysis on a 1–5 scale with anchored rubrics (BARS), then Cohen's kappa measures inter-judge agreement across 25 cases. Both judges are from different model families than the gpt-4o-mini agent, eliminating self-preference bias.
+=======
+Two independent LLM judges (llama as primary, qwen3 as secondary) score each analysis on a 1–5 scale with anchored rubrics (BARS), then Cohen's kappa measures inter-judge agreement across 25 cases.
+>>>>>>> 50e04e1a9435add64adede92f73e9d0923a3736c
 
 **Final Results (Round 3 — forced citation format):**
 
