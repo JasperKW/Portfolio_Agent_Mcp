@@ -38,7 +38,7 @@ User Input: "Build a defensive tech portfolio with $100k, focus on AI exposure"
 
 ---
 
-## S18 Requirements Compliance
+## Requirements Compliance
 
 ### 2.1 The Agent — 4 of 6 Components Used
 
@@ -142,7 +142,7 @@ Mean-variance optimization → weights w*
 
 ## Module 3: Multi-Agent Orchestration
 
-### LangGraph State Machine (S9 Pattern B — Supervisor + Parallel Fan-out)
+### LangGraph State Machine (Supervisor + Parallel Fan-out)
 
 ```
 START → planner → [analyst × N via Send] → synthesizer → END
@@ -224,7 +224,7 @@ Two independent LLM judges (gpt-4o-mini as primary, gpt-4o as secondary) score e
 
 ---
 
-## Experiment Log (S18 §2.3)
+## Experiment Log (§2.3)
 
 > **S18 §2.3 pattern followed**: Baseline → Optimize → N rounds of iteration.
 > Each experiment starts with a naive baseline, makes one explicit change, and records whether the metric moved up, down, or not at all.
@@ -254,7 +254,7 @@ Two independent LLM judges (gpt-4o-mini as primary, gpt-4o as secondary) score e
 
 ---
 
-## Failure Analysis (S18 §2.4)
+## Failure Analysis (§2.4)
 
 **Case 1 — Citation quality κ passes but mean score stays low (1.12/5)**
 
