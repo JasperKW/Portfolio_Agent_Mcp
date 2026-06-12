@@ -41,7 +41,7 @@ MCP_SERVER_URL = os.getenv("FINANCIAL_MCP_URL", "http://localhost:8001/mcp")
 
 # Module-level registry, populated at startup via _get_registry()
 _registry: ToolRegistry | None = None
-
+_registry_lock = asyncio.Lock()
 
 async def _get_registry() -> ToolRegistry:
     """
@@ -52,27 +52,33 @@ async def _get_registry() -> ToolRegistry:
     This lets the agent work in both dev (no server running) and prod.
     """
     global _registry
-    if _registry is not None:
+    if _registry is not None:        # fast path: already initialized
         return _registry
 
-    _registry = ToolRegistry()
+    async with _registry_lock:
+        # double-check: another coroutine may have finished init while we waited
+        if _registry is not None:
+            return _registry
 
-    try:
-        # Dynamic MCP discovery: connect → tools/list → register adapters
-        # The agent doesn't hardcode tool names — it discovers them at runtime
-        adapters = await discover_mcp_tools(MCP_SERVER_URL, "financial")
-        for adapter in adapters:
-            _registry.register(adapter)
-        print(f"[Registry] Using MCP tools from {MCP_SERVER_URL}")
+        # build into a LOCAL variable — never expose a half-filled registry
+        registry = ToolRegistry()
+        try:
+            # Dynamic MCP discovery: connect → tools/list → register adapters
+            # The agent doesn't hardcode tool names — it discovers them at runtime
+            adapters = await discover_mcp_tools(MCP_SERVER_URL, "financial")
+            for adapter in adapters:
+                registry.register(adapter)
+            print(f"[Registry] Using MCP tools from {MCP_SERVER_URL}")
 
-    except Exception as e:
-        # Fallback: register local Python tools directly (dev mode)
-        print(f"[Registry] MCP server unreachable ({e}), falling back to local tools")
-        from src.tools.financial_tools import PriceTool, TechnicalTool, BlackLittermanTool
-        _registry.register(PriceTool())
-        _registry.register(TechnicalTool())
-        _registry.register(BlackLittermanTool())
+        except Exception as e:
+            # Fallback: register local Python tools directly (dev mode)
+            print(f"[Registry] MCP server unreachable ({e}), falling back to local tools")
+            from src.tools.financial_tools import PriceTool, TechnicalTool, BlackLittermanTool
+            registry.register(PriceTool())
+            registry.register(TechnicalTool())
+            registry.register(BlackLittermanTool())
 
+        _registry = registry   # atomic publish: only after fully built
     return _registry
 
 load_dotenv()
@@ -115,7 +121,7 @@ async def planner_node(state: PortfolioState) -> dict:
     
 User request: {state["user_query"]}
 
-Select 3-6 US large-cap stocks most relevant to this request.
+Select 5-6 US large-cap stocks most relevant to this request.
 Respond ONLY with a JSON object:
 {{"tickers": ["NVDA", "MSFT", "AAPL"], "rationale": "one sentence why"}}
 
@@ -183,7 +189,7 @@ async def analyst_node(sub_state: AnalystSubState) -> dict:
 
     # ── 1. RAG retrieval ──────────────────────────────────────────────────────
     retriever = MultiTickerRetriever([ticker])
-    rag_results = retriever.retrieve_for_ticker(
+    rag_results = await retriever.aretrieve_for_ticker(
         ticker,
         query=f"{ticker} revenue growth margins outlook risk factors",
         top_k=4,
@@ -442,7 +448,7 @@ def _estimate_cost(response) -> float:
 if __name__ == "__main__":
     result = asyncio.run(
         run_portfolio_agent(
-            "用 10 万美元构建一个防御性科技投资组合。"
+            "构建一个风险性科技投资组合。"
             "重点关注具有强劲现金流和人工智能敞口的公司"
         )
     )

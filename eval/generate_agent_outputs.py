@@ -92,7 +92,7 @@ async def generate_one(
 
     # 1. Retrieve context (same enhanced query style as ragas_eval)
     enhanced_query = f"{ticker} financial data: {question}"
-    results = retriever.retrieve_for_ticker(ticker, enhanced_query, top_k=4)
+    results = await retriever.aretrieve_for_ticker(ticker, enhanced_query, top_k=4)
 
     # 2. Build page-tagged context blocks (mirrors portfolio_graph analyst_node)
     context_blocks = []

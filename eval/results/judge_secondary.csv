@@ -1,26 +1,26 @@
 case_id,judge,data_grounding,logic_coherence,citation_quality,overall,key_issue
-rag_001,qwen3-32b,1,1,1,1,"Analysis lacks specific data, logical reasoning, and citations due to insufficient context."
-rag_002,qwen3-32b,2,3,5,3,"The analysis lacks specific numerical data to quantify risks like infrastructure costs or margin impacts, relying on vague descriptors like 'significant' instead."
-rag_003,qwen3-32b,1,1,1,1,"Analysis lacks any data, reasoning, or citations due to insufficient context provided."
-rag_004,qwen3-32b,1,1,1,1,"Analysis lacks any data, reasoning, or citations due to insufficient context and empty source documents."
-rag_005,qwen3-32b,1,1,1,1,"No analysis was generated due to insufficient context, leaving all evaluation dimensions unaddressed."
-rag_006,qwen3-32b,1,1,1,1,"No analysis was generated due to 'INSUFFICIENT_CONTEXT,' leaving all evaluation dimensions unaddressed."
-rag_007,qwen3-32b,5,4,5,4,"The analysis lacks explicit quantification of how each factor (e.g., pricing changes, infrastructure spending) directly impacts operating income, weakening the causal clarity."
-rag_008,qwen3-32b,1,1,1,1,"Analysis lacks any specific data, logical reasoning, or citations due to insufficient context."
-rag_009,qwen3-32b,5,5,5,5,The analysis is concise and factually grounded but lacks deeper contextual analysis of how increased R&D spending might impact future performance or competitive positioning.
-rag_010,qwen3-32b,2,4,5,3,"The analysis lacks specific numerical data for AAPL's cash position, relying on vague references to restricted cash without exact figures."
-rag_011,qwen3-32b,1,1,1,1,"Analysis lacks any data, reasoning, or citations due to insufficient context."
-rag_012,qwen3-32b,1,3,5,3,"The analysis lacks specific numerical data to support claims about regulatory challenges impacting AWS, resulting in weak data grounding."
-rag_013,qwen3-32b,5,5,5,5,The analysis is factually precise and well-supported but lacks deeper strategic context on how the expense increase aligns with long-term growth goals or profitability implications.
-rag_014,qwen3-32b,2,4,5,3,"The analysis mentions a depreciation increase of '$ billion' but omits the exact numerical value, weakening data grounding."
-rag_015,qwen3-32b,1,1,1,1,"The analysis lacks sufficient data, logical reasoning, and citations due to insufficient context."
-rag_016,qwen3-32b,5,2,5,4,The analysis lacks logical reasoning connecting the revenue growth data to any investment conclusion or valuation judgment.
-rag_017,qwen3-32b,5,5,5,5,"The analysis lacks actual revenue figures, relying solely on growth percentages, which limits context for assessing the significance of the growth."
-rag_018,qwen3-32b,1,1,5,1,"The analysis lacks specific numerical data to support claims about Microsoft Cloud revenue, relying only on category descriptions without quantitative evidence."
-rag_019,qwen3-32b,2,3,5,3,The analysis mentions the metric and source but lacks specific numerical data to substantiate claims.
-rag_020,qwen3-32b,2,3,5,3,"The analysis lacks specific numerical data to quantify the 'relatively flat' sales claim, relying only on a qualitative comparison."
-rag_021,qwen3-32b,1,1,5,1,No specific numbers are provided to support the claim about amortization in Apple's Services net sales.
-rag_022,qwen3-32b,2,3,5,3,"The analysis lacks specific numerical data to quantify the growth drivers (e.g., unit sales, advertising revenue) despite citing a source."
-rag_023,qwen3-32b,1,3,5,2,"The analysis lacks specific numerical data to support claims about Google's advertising revenue components, despite citing sources."
-rag_024,qwen3-32b,1,2,5,2,No specific numerical data is provided to support the claims about revenue composition.
-rag_025,qwen3-32b,1,1,1,1,"Analysis lacks specific data, logical reasoning, and citations due to insufficient context provided."
+rag_001,qwen3-32b,1,1,1,1,"Analysis lacks any data, reasoning, or citations due to insufficient context."
+rag_002,qwen3-32b,1,3,5,3,"The analysis lacks specific numerical data to quantify risks, relying solely on qualitative descriptions."
+rag_003,qwen3-32b,1,1,1,1,"Analysis lacks specific data, logical reasoning, and citations due to insufficient context and no source documents provided."
+rag_004,qwen3-32b,1,1,1,1,"Analysis lacks any specific data, logical reasoning, or citations due to insufficient context."
+rag_005,qwen3-32b,1,1,1,1,"Analysis lacks any specific data, reasoning, or citations due to insufficient context."
+rag_006,qwen3-32b,1,1,1,1,"No analysis content provided to evaluate data, logic, or citations."
+rag_007,qwen3-32b,5,4,5,4,"The analysis lacks explicit quantification of how pricing changes and infrastructure spending impacted operating income, weakening the causal clarity."
+rag_008,qwen3-32b,1,1,1,1,"No analysis or data provided due to insufficient context, making all dimensions unscorable."
+rag_009,qwen3-32b,1,3,5,3,The analysis lacks specific numerical data to support claims about the scale or trends of Microsoft's R&D investments.
+rag_010,qwen3-32b,1,3,5,2,"The analysis fails to mention specific cash figures or restrictions, rendering the conclusion unsupported by numerical data."
+rag_011,qwen3-32b,1,1,1,1,"Analysis lacks any specific data, reasoning, or citations due to insufficient context."
+rag_012,qwen3-32b,1,1,1,1,"Analysis lacks specific data, logical reasoning, and citations due to insufficient context."
+rag_013,qwen3-32b,5,5,5,5,The analysis does not specify how much of the $1.2 billion increase is attributed to commercial sales versus Gaming investments.
+rag_014,qwen3-32b,2,3,5,3,"The analysis lacks specific numerical data (e.g., magnitude of increased depreciation or revised useful life estimates) to substantiate claims."
+rag_015,qwen3-32b,1,1,1,1,"Analysis lacks specific data, logical reasoning, and citations due to insufficient context."
+rag_016,qwen3-32b,5,2,5,3,"The analysis lacks a logical connection between the presented data and any investment conclusion, making the reasoning incomplete."
+rag_017,qwen3-32b,3,3,3,3,parse error
+rag_018,qwen3-32b,1,1,5,1,No specific numbers or quantitative data are provided to support claims about Microsoft Cloud's performance or composition.
+rag_019,qwen3-32b,2,3,5,3,No specific numerical data is provided to support the claim about Microsoft's cloud gross margin percentage.
+rag_020,qwen3-32b,2,3,5,3,"The analysis lacks specific numerical data to quantify sales changes, relying on qualitative descriptions like 'relatively flat' and 'higher/lower' without figures."
+rag_021,qwen3-32b,1,3,5,2,Analysis lacks specific numerical data to ground claims about Apple's Services net sales and App Store commission accounting.
+rag_022,qwen3-32b,2,3,5,3,The analysis lacks specific numerical data to substantiate claims about growth drivers like unit sales and advertising revenue.
+rag_023,qwen3-32b,1,3,5,2,"The analysis lacks specific numerical data to quantify the revenue contributions of each component, relying only on structural categorization without measurable evidence."
+rag_024,qwen3-32b,1,4,5,3,"The analysis lacks specific numerical data to support claims about revenue composition, relying only on qualitative breakdowns."
+rag_025,qwen3-32b,1,1,1,1,"Analysis lacks any specific data, reasoning, or citations due to insufficient context."

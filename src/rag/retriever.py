@@ -20,7 +20,7 @@ from langchain_openai import OpenAIEmbeddings
 from rank_bm25 import BM25Okapi
 
 from src.rag.ingest import DocumentChunk, rrf_merge, INDEX_DIR
-
+from src.rag.reranker import llm_rerank
 
 
 @dataclass
@@ -132,6 +132,52 @@ class FinancialRetriever:
 
         return results
 
+    async def aretrieve(self, query: str, top_k: int = 5) -> list[RetrievalResult]:
+        """
+        Async hybrid retrieval with LLM reranking (S5 §5.3).
+
+        Pipeline: FAISS + BM25 → RRF (recall) → Parent lookup → LLM rerank (precision) → top_k
+
+        Uses the sync retrieve() to get 2x candidates, then applies
+        LLM-as-reranker to pick the most relevant top_k.
+        """
+        # Step 1: Get 2x candidates from existing hybrid pipeline (over-fetch for reranker)
+        candidates = self.retrieve(query, top_k=top_k * 2)
+
+        if not candidates:
+            return []
+
+        # Step 2: Convert to dicts for the reranker
+        candidate_dicts = [
+            {
+                "chunk_id": r.child_chunk_id,
+                "text": r.text,
+                "ticker": r.ticker,
+                "doc_type": r.doc_type,
+                "page": r.page,
+                "source_pdf": r.source_pdf,
+                "relevance_score": r.relevance_score,
+            }
+            for r in candidates
+        ]
+
+        # Step 3: LLM rerank — precision-focused scoring
+        reranked = await llm_rerank(query, candidate_dicts, top_k=top_k)
+
+        # Step 4: Convert back to RetrievalResult
+        return [
+            RetrievalResult(
+                text=r["text"],
+                ticker=r["ticker"],
+                doc_type=r["doc_type"],
+                page=r["page"],
+                source_pdf=r["source_pdf"],
+                relevance_score=r.get("relevance_score", 0.0),
+                child_chunk_id=r["chunk_id"],
+            )
+            for r in reranked
+        ]
+
     def _idx_to_doc(self, idx: int):
         """Convert BM25 index position to a LangChain Document-like object."""
         from langchain_core.documents import Document
@@ -173,3 +219,11 @@ class MultiTickerRetriever:
             ticker: r.retrieve(query, top_k_per_ticker)
             for ticker, r in self.retrievers.items()
         }
+    
+    async def aretrieve_for_ticker(
+        self, ticker: str, query: str, top_k: int = 5
+    ) -> list[RetrievalResult]:
+        """Retrieve with LLM reranking for a specific ticker."""
+        if ticker not in self.retrievers:
+            return []
+        return await self.retrievers[ticker].aretrieve(query, top_k)
